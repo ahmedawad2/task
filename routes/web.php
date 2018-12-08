@@ -11,6 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'HomeController@index')->name('home');
+
+
+Auth::routes();
+
+Route::group([
+    'middleware' => ['auth']
+], function () {
+    Route::resource('projects', 'ProjectsController');
+    Route::resource('tasks', 'TasksController');
+//    projectTasks
+    Route::get('projects/projectTasks/{project}', 'ProjectsController@projectTasks')->name('projectTasks');
 });
